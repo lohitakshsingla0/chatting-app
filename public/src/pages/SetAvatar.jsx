@@ -27,7 +27,7 @@ export default function SetAvatar() {
   useEffect( () => {
     if (!localStorage.getItem("chat-app-user"))
       navigate("/login");
-  }, []);
+  }, [navigate]);
 
   const setProfilePicture = async () => {
     if (selectedAvatar === undefined) {
@@ -56,20 +56,42 @@ export default function SetAvatar() {
   };
 
 
-  useEffect( () => {
-    const data = [];
-    for (let i = 0; i < 4; i++) {
-      const image =  axios.get(
-        `${api}/${Math.round(Math.random() * 1000)}`
-      );
+  // useEffect( () => {
+  //   const data = [];
+  //   for (let i = 0; i < 4; i++) {
+  //     const image =  axios.get(
+  //       `${api}/${Math.round(Math.random() * 1000)}`
+  //     );
 
-      const buffer = new Buffer(image.data);
+  //     const buffer = new Buffer(image.data);
 
-      data.push(buffer.toString("base64"));
-    }
-    setAvatars(data);
-    setIsLoading(false);
-  }, []);
+  //     data.push(buffer.toString("base64"));
+  //   }
+  //   setAvatars(data);
+  //   setIsLoading(false);
+  // }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = [];
+      try {
+        for (let i = 0; i < 4; i++) {
+          const image = await axios.get(`${api}/${Math.round(Math.random() * 1000)}`);
+          const buffer = Buffer.from(image.data);
+          data.push(buffer.toString("base64"));
+        }
+        setAvatars(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching avatars:", error);
+        setIsLoading(false);
+        // Handle the error state or notify the user accordingly
+      }
+    };
+
+    fetchData();
+  }, [api]);
   return (
     <>
       {isLoading ? (
