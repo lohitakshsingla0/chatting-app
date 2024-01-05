@@ -16,9 +16,9 @@ export default function Contacts({ contacts, currentUser }) {
     }
   }, [currentUserName])
 
-  const changeCurrentChat = (index, contacts) => {
+  const changeCurrentChat = (index, contact) => {
 
-  }
+  };
   return (
     <>
       {currentUserImage && currentUserName && (
