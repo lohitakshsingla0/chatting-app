@@ -14,23 +14,28 @@ function Chat() {
   const navigate = useNavigate();
 
   useEffect( () => {
-    if (!localStorage.getItem("chat-app-user")){
+    const fetchCurrentUser = async () => {
+    if (!localStorage.getItem("chat-app-user")) {
       navigate("/login");
     }else {
-      setCurrentUser(JSON.parse(localStorage.getItem("chat-app-user")))
-    }
-  } , [navigate]);
+      setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")))
+     } }
+    fetchCurrentUser();
+  }, []);
 
-  useEffect(() => {
+
+  useEffect( () => {
+    const fetchContacts = async () => {
     if (currentUser) {
       if (currentUser.isAvatarImageSet) {
-        const data = axios.get(`${allUsersRoute}/${currentUser._id}`);
+        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
         setContacts(data.data);
       } else {
         navigate("/setAvatar");
       }
-    }
-  }, [currentUser]);
+    } }
+    fetchContacts();
+  }, [currentUser]);
 
 
 
@@ -40,7 +45,7 @@ function Chat() {
     <>
       <Container>
         <div className='container'>
-          <Contacts contacts={contacts} currentUser={currentUser}/>
+          <Contacts contacts={contacts} currentUser={currentUser} />
         </div>
       </Container>
 

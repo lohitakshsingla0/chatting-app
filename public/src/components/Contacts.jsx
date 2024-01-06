@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 
 
-export default function Contacts({ contacts, currentUser }) {
+export default function Contacts({ contacts , currentUser }) {
 
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
@@ -13,15 +13,20 @@ export default function Contacts({ contacts, currentUser }) {
     if (currentUser) {
       setCurrentUserImage(currentUser.avatarImage)
       setCurrentUserName(currentUser.username)
+
     }
-  }, [currentUserName])
+  }, [currentUser])
+
 
   const changeCurrentChat = (index, contact) => {
 
   };
+  console.log(currentUserName)
   return (
-    <>
-      {currentUserImage && currentUserName && (
+
+    <React.Fragment>
+
+      {currentUserImage && currentUserName &&(
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
@@ -60,7 +65,9 @@ export default function Contacts({ contacts, currentUser }) {
         </Container>
       )}
 
-    </>
+      </React.Fragment>
+
+
   )
 }
 
